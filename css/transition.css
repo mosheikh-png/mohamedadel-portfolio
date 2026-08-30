@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Full-screen multi-slice glass transition
+   2 full-height vertical slices enter from right, cover viewport,
+   then retract left. Pure CSS transform keyframes, zero JS animation.
+
+   ========================================================================== */
+
+.transition-container {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.transition-container .slice {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50vw;
+  will-change: transform;
+  transform: translate3d(100vw, 0, 0);
+  background: linear-gradient(180deg, rgba(5, 29, 34, 0.88), rgba(2, 13, 16, 0.92));
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  animation-delay: calc(var(--i) * 20ms);
+}
+
+.transition-container .slice:nth-child(1) { left: 0; }
+.transition-container .slice:nth-child(2) { left: 50vw; }
+
+.transition-container .slice::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.18) 0px,
+    rgba(255, 255, 255, 0.18) 1px,
+    transparent 1px,
+    transparent 4.5px,
+    rgba(0, 0, 0, 0.1) 4.5px,
+    rgba(0, 0, 0, 0.1) 5.5px,
+    transparent 5.5px,
+    transparent 10px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.transition-container .slice::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(0, 0, 0, 0.08) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 10px 100%;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+@keyframes sliceCoverIn {
+  from { transform: translate3d(100vw, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes sliceCoverOut {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-100vw, 0, 0); }
+}
+
+.transition-container.covering .slice {
+  animation-name: sliceCoverIn;
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-fill-mode: both;
+}
+
+.transition-container.revealing .slice {
+  animation-name: sliceCoverOut;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes sliceFadeIn {
+  from { opacity: 0; transform: translate3d(0, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes sliceFadeOut {
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to   { opacity: 0; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-container .slice { animation-delay: 0ms !important; }
+  .transition-container.covering .slice { animation-name: sliceFadeIn; animation-duration: 160ms; animation-timing-function: ease; }
+  .transition-container.revealing .slice { animation-name: sliceFadeOut; animation-duration: 160ms; animation-timing-function: ease; }
+}
