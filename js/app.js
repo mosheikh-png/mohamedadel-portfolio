@@ -90,6 +90,7 @@
             '<button type="button" data-lang="ar" class="' + (lang === "ar" ? "is-active" : "") + '">ع</button>' +
           '</div>' +
           '<a class="contact-chip-v2" href="#/contact">' + copy.letsTalk + ' <span aria-hidden="true">&#8599;</span></a>' +
+          '<a class="admin-entry" href="#/admin" aria-label="Admin" title="Admin">A</a>' +
           '<button type="button" class="sound-toggle moon-chip-v2" data-sound-toggle aria-label="' + (SOUND.isEnabled() ? "Mute sounds" : "Enable sounds") + '">' + soundIcon + '</button>' +
           '<label class="' + (motion.animationsEnabled ? "moon-chip-v2 motion-preference-v2" : "moon-chip-v2 motion-preference-v2 is-motion-off") + '" title="' + (lang === "ar" ? "تفضيل الحركة" : "Motion preference") + '">' +
             ICONS.moon(17) +
@@ -338,6 +339,7 @@
     if (route.indexOf("/work/") === 0) return renderWorkCategory(route.slice("/work/".length));
     if (route === "/about") return renderAbout();
     if (route === "/contact") return renderContact();
+    if (route === "/admin" && global.PortfolioAdmin) return global.PortfolioAdmin.render();
     return renderNotFound();
   }
 
@@ -345,6 +347,9 @@
     routePage.innerHTML = matchRoute(DISPLAY_LOCATION);
     updateStarPosition();
     bindPageEvents();
+    if (DISPLAY_LOCATION === "/admin" && global.PortfolioAdmin) {
+      global.PortfolioAdmin.bind(routePage);
+    }
     global.scrollTo(0, 0);
   }
 

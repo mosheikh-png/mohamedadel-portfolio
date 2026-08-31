@@ -99,7 +99,7 @@
   var PORTFOLIO = [
     { heroPortrait: ASSET + "mohamed-adel-hero-portrait_8ea5ea10.webp" },
     { texture: ASSET + "mohamed-adel-global-texture.webp" },
-    { star: ASSET + "mohamed-adel-rotating-star.webp" }
+    { star: ASSET + "mohamed-adel-rotating-star-outline.webp" }
   ];
 
   var PROJECTS = [
