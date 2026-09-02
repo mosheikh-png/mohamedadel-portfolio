@@ -120,6 +120,7 @@
         '<section class="portfolio-shell home-shell">' +
           renderHeader("/") +
           '<section class="cover-hero">' +
+            '<div class="global-star"><img src="' + DATA.PORTFOLIO[0].star + '" alt="" /></div>' +
             '<div class="cover-portrait"><img src="' + DATA.PORTFOLIO[0].heroPortrait + '" alt="Mohamed Adel" loading="eager" fetchpriority="high" decoding="async" /></div>' +
             '<div class="cover-years"><span>' + content.homeStartYear + '</span><i></i><span>' + content.homeEndYear + '</span></div>' +
             '<div class="cover-copy">' +
